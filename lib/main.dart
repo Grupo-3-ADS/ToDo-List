@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Cadastro de lista de Tarefa',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF673AB7)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Cadastro de lista de Tarefa'),
