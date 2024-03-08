@@ -32,8 +32,8 @@ class DatabaseProvider {
     return await openDatabase(path, version: 1,
         onCreate: (Database db, int newerVersion) async {
       await db.execute(
-          "CREATE TABLE $taskTable($idColumn INTEGER PRIMARY KEY, $nameColumn TEXT, $dateColumn DATE,"
-          "$timeColumn TIME)");
+          "CREATE TABLE $taskTable($idColumn INTEGER PRIMARY KEY, $nameColumn TEXT, $dateColumn TEXT,"
+          "$timeColumn TEXT)");
     });
   }
 

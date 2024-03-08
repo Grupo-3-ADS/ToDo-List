@@ -23,55 +23,72 @@ class _RegisterTaskState extends State<RegisterTask> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-              widget.editIndex != null ? 'Editar Tarefa' : 'Adicionar Tarefa'),
+      appBar: AppBar(
+        title: Text(
+            widget.editIndex != null ? 'Editar Tarefa' : 'Adicionar Tarefa'),
+      ),
+      body: SingleChildScrollView(
+        // Adiciona um SingleChildScrollView
+        child: Padding(
+          padding: const EdgeInsets.all(0.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              sizeBox(),
+              taskName(),
+              sizeBox(),
+              taskDate(),
+              sizeBox(),
+              taskTime(),
+              sizeBox(),
+            ],
+          ),
         ),
-        body: Stack(children: <Widget>[
-          ListView(children: [
-            sizeBox(),
-            taskName(),
-            sizeBox(),
-            taskDate(),
-            sizeBox(),
-            taskTime(),
-          ]),
-        ]),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.amber,
-          foregroundColor: Colors.black,
-          child: Icon(Icons.add),
-          onPressed: () async {
-            final dbProvider = DatabaseProvider();
-            if (widget.editIndex != null) {
-              // Atualiza contato existente
-              Task newTask = Task(
-                widget.task!.id,
-                _nameController.text,
-                _dateController.text,
-                _timeController.text,
-              );
-              await dbProvider.updateTask(newTask);
-              listTask[widget.editIndex!] = newTask;
-            } else {
-              // Adiciona novo contato
-              Task newTask = Task(
-                null,
-                _nameController.text,
-                _dateController.text,
-                _timeController.text,
-              );
-              await dbProvider.saveTask(newTask);
-              listTask.add(newTask);
-            }
-            Navigator.pop(context); // Retorna para a tela anterior
-          },
-        ));
+      ),
+      floatingActionButton: Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.fromLTRB(33, 0, 0, 10),
+          child: ElevatedButton(
+            onPressed: () async {
+              final dbProvider = DatabaseProvider();
+              if (widget.editIndex != null) {
+                // Atualiza contato existente
+                Task newTask = Task(
+                  widget.task!.id,
+                  _nameController.text,
+                  _dateController.text,
+                  _timeController.text,
+                );
+                await dbProvider.updateTask(newTask);
+                listTask[widget.editIndex!] = newTask;
+              } else {
+                // Adiciona novo contato
+                Task newTask = Task(
+                  null,
+                  _nameController.text,
+                  _dateController.text,
+                  _timeController.text,
+                );
+                await dbProvider.saveTask(newTask);
+                listTask.add(newTask);
+              }
+              Navigator.pop(context); // Retorna para a tela anterior
+            },
+            style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.symmetric(vertical: 20),
+            ),
+            child: Text(widget.editIndex != null ? 'Salvar' : 'Adicionar'),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget sizeBox() {
     return SizedBox(
-      height: 30,
+      height: 15,
     );
   }
 
@@ -138,9 +155,4 @@ class _RegisterTaskState extends State<RegisterTask> {
       ),
     );
   }
-}
-
-void addTaskList(String name, String date, String time) {
-  Task t = Task(null, name, date, time);
-  listTask.add(t);
 }

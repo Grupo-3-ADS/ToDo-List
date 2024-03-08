@@ -58,7 +58,7 @@ class _TaskListState extends State<TaskList> {
         title: Text('Minhas tarefas'),
       ),
       body: ListView.builder(
-          itemCount: listTask.length,
+          itemCount: tasks.length,
           itemBuilder: (BuildContext context, int index) {
             String name = tasks[index].name;
             String data = tasks[index].date;
