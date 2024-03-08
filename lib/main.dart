@@ -1,29 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:lista_tarefas/cadastro_tarefa.dart';
-import 'package:lista_tarefas/lista_tarefa.dart';
+import 'package:lista_tarefas/register_task.dart';
+import 'package:lista_tarefas/task_list.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Cadastro de lista de Tarefa',
+      title: 'Lista de Tarefas',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primarySwatch: Colors.deepPurple,
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple),
+        appBarTheme: const AppBarTheme(backgroundColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Cadastro de lista de Tarefa'),
+      home: const MyHomePage(title: 'Lista de Tarefas'),
+      routes: {
+        '/register': (context) => const RegisterTask(),
+        '/list': (context) => const TaskList(),
+      },
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -32,82 +37,66 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
       drawer: Drawer(
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
-              accountName: Text('Tiago'),
-              accountEmail: Text('tiago@gmail.com'),
+              accountName: Text('Nome do usuário aqui'),
+              accountEmail: Text('email@usuario.com'),
               currentAccountPicture: CircleAvatar(
                 radius: 30.0,
                 backgroundImage: AssetImage('../assets/images/1.png'),
               ),
             ),
             ListTile(
-                leading: Icon(Icons.add),
-                title: Text('Adicionar tarefa'),
-                subtitle: Text('Pode meter aqui'),
-                trailing: Icon(Icons.arrow_forward),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => cadastroTarefas()));
-                }),
-            ListTile(
-              leading: Icon(Icons.list),
-              title: Text('Minhas tarefas'),
-              subtitle: Text('Tem coisa pra fazer'),
-              trailing: Icon(Icons.arrow_forward),
+              leading: const Icon(Icons.add),
+              title: const Text('Adicionar Tarefa'),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => listaTarefas()));
+                Navigator.pushNamed(context, '/register');
               },
             ),
             ListTile(
-              leading: Icon(Icons.delete),
-              title: Text('Remover tarefas'),
-              subtitle: Text('Vai largar de mão?'),
-              trailing: Icon(Icons.arrow_forward),
-              onTap: null,
+              leading: const Icon(Icons.list),
+              title: const Text('Listar Tarefas'),
+              onTap: () {
+                Navigator.pushNamed(context, '/list');
+              },
             ),
           ],
         ),
-      ),
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'You have pushed the button this many times:',
+              'Bem-vindo à sua lista de tarefas!',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/register');
+              },
+              child: const Text('Adicionar Tarefa'),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/list');
+              },
+              child: const Text('Listar Tarefas'),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
