@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
             builder: (context) =>
-                listaTarefas()), // Ajuste para a sua tela principal
+                TaskList()), // Ajuste para a sua tela principal
       );
     } else {
       showDialog(
