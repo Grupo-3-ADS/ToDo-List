@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_tarefas/database.dart';
-import 'package:lista_tarefas/lista_tarefa.dart';
+import 'package:lista_tarefas/task_list.dart';
 import 'signup_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -50,7 +50,8 @@ class _LoginPageState extends State<LoginPage> {
               cursorColor: Colors.pinkAccent,
               padding: const EdgeInsets.all(15),
               placeholder: "Digite o seu e-mail",
-              placeholderStyle: const TextStyle(color: Colors.white70, fontSize: 14),
+              placeholderStyle:
+                  const TextStyle(color: Colors.white70, fontSize: 14),
               style: const TextStyle(color: Colors.white, fontSize: 14),
               decoration: const BoxDecoration(
                   color: Colors.black12,
@@ -65,7 +66,8 @@ class _LoginPageState extends State<LoginPage> {
               cursorColor: Colors.pinkAccent,
               placeholder: "Digite sua senha",
               obscureText: true,
-              placeholderStyle: const TextStyle(color: Colors.white70, fontSize: 14),
+              placeholderStyle:
+                  const TextStyle(color: Colors.white70, fontSize: 14),
               style: const TextStyle(color: Colors.white, fontSize: 14),
               decoration: const BoxDecoration(
                   color: Colors.black12,
@@ -124,7 +126,9 @@ class _LoginPageState extends State<LoginPage> {
     );
     if (isValid) {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => listaTarefas()), // Ajuste para a sua tela principal
+        MaterialPageRoute(
+            builder: (context) =>
+                listaTarefas()), // Ajuste para a sua tela principal
       );
     } else {
       showDialog(
