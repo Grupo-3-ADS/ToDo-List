@@ -77,6 +77,9 @@ class _TaskListState extends State<TaskList> {
                   leading: CircleAvatar(child: Text(index.toString())),
                   title: (Text('Tarefa: $name')),
                   subtitle: Text('Data: $data' + ' - ' + ' Hora: $hora'),
+                  onTap: () {
+                    editTask(index);
+                  },
                 ));
           }),
       floatingActionButton: FloatingActionButton(
