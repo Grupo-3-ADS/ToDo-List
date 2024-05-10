@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lista_tarefas/login.dart';
 import 'package:lista_tarefas/register_task.dart';
 import 'package:lista_tarefas/task_list.dart';
 
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple),
         appBarTheme: const AppBarTheme(backgroundColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Lista de Tarefas'),
+      home: const LoginPage(),
       routes: {
         '/register': (context) => const RegisterTask(),
         '/list': (context) => const TaskList(),
