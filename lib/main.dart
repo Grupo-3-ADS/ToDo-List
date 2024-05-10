@@ -12,7 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Lista de Tarefas',
+      debugShowCheckedModeBanner: false,
+      title: 'Cadastro de lista de Tarefa',
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple),
