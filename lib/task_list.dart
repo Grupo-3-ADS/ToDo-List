@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lista_tarefas/model.dart';
 import 'package:lista_tarefas/register_task.dart';
-
-List<Task> listTask = [];
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TaskList extends StatefulWidget {
   const TaskList({Key? key}) : super(key: key);
@@ -22,8 +21,10 @@ class _TaskListState extends State<TaskList> {
     _getAllTasks();
   }
 
-  void _getAllTasks() {
-    database.getAllTasks().then((list) {
+  Future<void> _getAllTasks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var userId = await prefs.getInt('userId');
+    database.getAllTasks(userId).then((list) {
       setState(() {
         tasks = list;
       });
@@ -41,14 +42,18 @@ class _TaskListState extends State<TaskList> {
     Task? newTask = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => RegisterTask(task: task, editIndex: index),
+        builder: (context) => RegisterTask(
+          task: task,
+          editIndex: index,
+          updateTasks: (List<Task> updatedTasks) {
+            setState(() {
+              tasks = updatedTasks;
+              _getAllTasks();
+            });
+          },
+        ),
       ),
     );
-    if (newTask != null) {
-      setState(() {
-        tasks[index] = newTask;
-      });
-    }
   }
 
   @override
@@ -65,7 +70,8 @@ class _TaskListState extends State<TaskList> {
             String hora = tasks[index].time;
             return Dismissible(
                 key: UniqueKey(),
-                background: Container(color: Colors.purple),
+                background:
+                    Container(color: Theme.of(context).colorScheme.tertiary),
                 onDismissed: (direction) {
                   Task task = tasks[index];
                   database.deleteTask(task.id!);
@@ -74,7 +80,10 @@ class _TaskListState extends State<TaskList> {
                   });
                 },
                 child: ListTile(
-                  leading: CircleAvatar(child: Text(index.toString())),
+                  leading: CircleAvatar(
+                    child: Text(index.toString()),
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                  ),
                   title: (Text('Tarefa: $name')),
                   subtitle: Text('Data: $data' + ' - ' + ' Hora: $hora'),
                   onTap: () {
@@ -84,9 +93,12 @@ class _TaskListState extends State<TaskList> {
           }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/register');
+          Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => RegisterTask()))
+              .then((value) => _getAllTasks());
         },
         tooltip: 'Adicionar novo',
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         child: const Icon(Icons.add),
       ),
     );

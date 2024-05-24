@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_tarefas/database.dart';
 import 'package:lista_tarefas/task_list.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'signup_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -124,7 +125,15 @@ class _LoginPageState extends State<LoginPage> {
       emailController.text,
       passwordController.text,
     );
+
     if (isValid) {
+      var userId =
+          await DatabaseHelper.instance.getUserIdByEmail(emailController.text);
+
+      // Salvar o ID do usuário na sessão
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setInt('userId', userId!);
+
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
             builder: (context) =>

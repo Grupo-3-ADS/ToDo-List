@@ -13,7 +13,7 @@
 		<key>CFBundleInfoDictionaryVersion</key>
 		<string>6.0</string>
 		<key>CFBundleName</key>
-		<string>lista_tarefas</string>
+		<string>Task List</string>
 		<key>CFBundlePackageType</key>
 		<string>APPL</string>
 		<key>CFBundleShortVersionString</key>
@@ -46,6 +46,8 @@
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>UIStatusBarHidden</key>
+		<false/>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
 	</dict>
 </plist>

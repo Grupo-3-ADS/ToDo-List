@@ -23,7 +23,6 @@ class _SignupPageState extends State<SignupPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cadastro'),
-        backgroundColor: Colors.deepPurple,
       ),
       body: Container(
         padding: const EdgeInsets.all(16),
@@ -35,7 +34,7 @@ class _SignupPageState extends State<SignupPage> {
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
                 placeholder: 'Nome',
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.tertiary,
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
@@ -45,7 +44,7 @@ class _SignupPageState extends State<SignupPage> {
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
                 placeholder: 'Sobrenome',
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.tertiary,
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
@@ -56,7 +55,7 @@ class _SignupPageState extends State<SignupPage> {
                 placeholder: 'Telefone',
                 keyboardType: TextInputType.phone,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.tertiary,
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
@@ -67,7 +66,7 @@ class _SignupPageState extends State<SignupPage> {
                 placeholder: 'E-mail',
                 keyboardType: TextInputType.emailAddress,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.tertiary,
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
@@ -78,7 +77,7 @@ class _SignupPageState extends State<SignupPage> {
                 placeholder: 'Senha',
                 obscureText: true,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.tertiary,
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
@@ -89,14 +88,17 @@ class _SignupPageState extends State<SignupPage> {
                 placeholder: 'Repita sua senha',
                 obscureText: true,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.tertiary,
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
               SizedBox(height: 20),
               CupertinoButton(
-                color: Colors.deepPurple,
-                child: Text('Registrar'),
+                child: Text(
+                  'Registrar',
+                  style: TextStyle(color: Colors.black),
+                ),
+                color: Theme.of(context).colorScheme.secondary,
                 onPressed: () {
                   if (senhaController.text != senhaConfirmacaoController.text) {
                     showDialog(
@@ -164,6 +166,7 @@ class _SignupPageState extends State<SignupPage> {
             TextButton(
               child: Text('Ok'),
               onPressed: () {
+                Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
             ),
