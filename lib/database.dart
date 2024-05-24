@@ -77,11 +77,23 @@ class DatabaseHelper {
   }
 
   Future<bool> verifyUser(String email, String senha) async {
-  Database db = await instance.database;
-  List<Map> results = await db.query('Users',
-      where: 'email = ? AND senha = ?',
-      whereArgs: [email, senha]);
-  return results.isNotEmpty;
-}
+    Database db = await instance.database;
+    List<Map> results = await db.query('Users',
+        where: 'email = ? AND senha = ?', whereArgs: [email, senha]);
+    return results.isNotEmpty;
+  }
 
+  Future<int?> getUserIdByEmail(String email) async {
+    Database db = await instance.database;
+    List<Map> results = await db.query(
+      'Users',
+      columns: ['id'],
+      where: 'email = ?',
+      whereArgs: [email],
+    );
+    if (results.isNotEmpty) {
+      return results.first['id'] as int?;
+    }
+    return null;
+  }
 }

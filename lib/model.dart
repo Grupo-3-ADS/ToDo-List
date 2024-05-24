@@ -7,6 +7,7 @@ const String idColumn = "Id";
 const String nameColumn = "Nome";
 const String dateColumn = "Data";
 const String timeColumn = "Hora";
+const String userIdColumn = "UserId";
 
 class DatabaseProvider {
   static final DatabaseProvider _instance = DatabaseProvider.internal();
@@ -33,7 +34,7 @@ class DatabaseProvider {
         onCreate: (Database db, int newerVersion) async {
       await db.execute(
           "CREATE TABLE $taskTable($idColumn INTEGER PRIMARY KEY, $nameColumn TEXT, $dateColumn TEXT,"
-          "$timeColumn TEXT)");
+          "$timeColumn TEXT, $userIdColumn INTEGER)");
     });
   }
 
@@ -46,7 +47,7 @@ class DatabaseProvider {
   Future<Task?> getTask(int id) async {
     Database? dbTask = await db;
     List<Map> maps = await dbTask.query(taskTable,
-        columns: [idColumn, nameColumn, dateColumn, timeColumn],
+        columns: [idColumn, nameColumn, dateColumn, timeColumn, userIdColumn],
         where: "$idColumn = ?",
         whereArgs: [id]);
     if (maps.length > 0) {
@@ -68,10 +69,12 @@ class DatabaseProvider {
         where: "$idColumn = ?", whereArgs: [task.id]);
   }
 
-  Future<List> getAllTasks() async {
+  Future<List> getAllTasks(int? userId) async {
     Database? dbTask = await db;
-    List listMap = await dbTask.rawQuery("SELECT * FROM $taskTable");
+    List listMap = await dbTask
+        .rawQuery("SELECT * FROM $taskTable WHERE UserId = $userId");
     List<Task> listTask = [];
+    print("Chargou aqui");
     for (Map m in listMap) {
       listTask.add(Task.fromMap(m));
     }
@@ -84,14 +87,16 @@ class Task {
   String? name;
   String? date;
   String? time;
+  int? userId;
 
-  Task(this.id, this.name, this.date, this.time);
+  Task(this.id, this.name, this.date, this.time, this.userId);
 
   Task.fromMap(Map map) {
     id = map[idColumn];
     name = map[nameColumn];
     date = map[dateColumn];
     time = map[timeColumn];
+    userId = map[userIdColumn];
   }
 
   Map<String, dynamic> toMap() {
@@ -99,6 +104,7 @@ class Task {
       nameColumn: name,
       dateColumn: date,
       timeColumn: time,
+      userIdColumn: userId
     };
 
     if (id != null) {
